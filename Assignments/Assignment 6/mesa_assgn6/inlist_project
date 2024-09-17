@@ -1,0 +1,81 @@
+! inlist to evolve a 6 solar mass star
+
+! For the sake of future readers of this file (yourself included),
+! ONLY include the controls you are actually using.  DO NOT include
+! all of the other controls that simply have their default values.
+
+&star_job
+  ! see star/defaults/star_job.defaults
+
+  ! begin with a pre-main sequence model
+    create_pre_main_sequence_model = .true.
+
+  ! save a model at the end of the run
+    save_model_when_terminate = .true.
+    save_model_filename = '6M_at_HEBurn.mod'
+
+  ! display on-screen plots
+    pgstar_flag = .true.
+
+/ ! end of star_job namelist
+
+&eos
+  ! eos options
+  ! see eos/defaults/eos.defaults
+
+/ ! end of eos namelist
+
+&kap
+  ! kap options
+  ! see kap/defaults/kap.defaults
+  use_Type2_opacities = .true.
+  Zbase = 0.02
+
+/ ! end of kap namelist
+
+&controls
+  ! see star/defaults/controls.defaults
+
+  ! starting specifications
+    initial_mass = 6 ! in Msun units
+    initial_z = 0.02 ! Metallicity Z = 0.02
+    initial_y = 0.28 ! Helium fraction Y = 0.28
+
+  ! Stopping condition: Stop at the onset of core helium burning
+    ! This condition stops the evolution at the beginning of helium burning in the core
+    stop_at_phase_He_Burn = .true.
+
+  ! Wind parameters for RGB and AGB mass loss
+    cool_wind_RGB_scheme = 'Reimers'
+    Reimers_scaling_factor = 0.7d0
+    cool_wind_AGB_scheme = 'Blocker'
+    Blocker_scaling_factor = 0.15d0
+
+  ! Output intervals for pgstar plotting
+  history_interval = 10         ! Frequency of writing data to the history file
+  profile_interval = 10      ! Frequency of writing data to the profile file
+  terminal_interval = 100       ! Terminal output ~~frequency~~
+  !pgstar_interval = 10          ! PGStar output interval
+  
+  ! atmosphere
+
+  ! rotation
+
+  ! element diffusion
+
+  ! mlt
+
+  ! mixing
+
+  ! timesteps
+
+  ! mesh
+
+  ! solver
+     ! options for energy conservation (see MESA V, Section 3)
+     energy_eqn_option = 'dedt'
+     use_gold_tolerances = .true.
+
+  ! output
+
+/ ! end of controls namelist
